@@ -29,6 +29,7 @@
     "@payloadcms/richtext-slate": "3.0.0-beta.55",
     "@payloadcms/storage-s3": "3.0.0-beta.55",
     "@payloadcms/ui": "3.0.0-beta.55",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
