@@ -88,6 +88,22 @@ export default buildConfig({
 				},
 			],
 		},
+		{
+			slug: "documents",
+			fields: [
+				{
+					name: "document",
+					type: "upload",
+					relationTo: "media",
+					required: true,
+				},
+				{
+					name: "date",
+					type: "date",
+					required: true,
+				},
+			],
+		},
 	],
 	secret: process.env.PAYLOAD_SECRET || "",
 	typescript: {
