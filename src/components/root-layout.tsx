@@ -11,32 +11,32 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const inter = Inter({
-	subsets: ["latin"],
-	variable: "--font-sans",
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 export default function RootLayout({
-	children,
+  children,
 }: { children: React.ReactNode }) {
-	return (
-		<html lang="en" suppressHydrationWarning>
-			<body
-				className={cn(
-					"min-h-screen bg-background font-sans antialiased",
-					inter.variable,
-				)}
-			>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
-				>
-					<AuthProvider api="rest">{children}</AuthProvider>
-					<Toaster richColors />
-					<TailwindIndicator />
-				</ThemeProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          inter.variable,
+        )}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider api="rest">{children}</AuthProvider>
+          <Toaster richColors />
+          <TailwindIndicator />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
 }

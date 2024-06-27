@@ -4,5 +4,5 @@ export const Background = () => {
       <div className="blur" />
       <div className="gradient" />
     </div>
-  )
-}
+  );
+};
