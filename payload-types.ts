@@ -9,7 +9,7 @@
 export interface Config {
   collections: {
     users: User;
-    pages: Page;
+    posts: Post;
     media: Media;
     documents: Document;
     'payload-preferences': PayloadPreference;
@@ -40,10 +40,11 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
+ * via the `definition` "posts".
  */
-export interface Page {
+export interface Post {
   id: string;
+  slug?: string | null;
   title?: string | null;
   content?: {
     root: {

@@ -21,7 +21,7 @@ import {
 } from "@payloadcms/richtext-lexical";
 //import { slateEditor } from '@payloadcms/richtext-slate'
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
-import { buildConfig } from "payload";
+import { buildConfig, type FieldHook } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
 import { s3Storage } from "@payloadcms/storage-s3";
@@ -63,11 +63,27 @@ export default buildConfig({
 			fields: [],
 		},
 		{
-			slug: "pages",
+			slug: "posts",
 			admin: {
 				useAsTitle: "title",
 			},
 			fields: [
+				{
+					name: "slug",
+					type: "text",
+					hooks: {
+						beforeChange: [
+							async ({ value, data }) => {
+								// return formatted version of title if exists, else return unmodified value
+								return data?.title?.replace(/ /g, "-").toLowerCase() ?? value;
+							},
+						],
+					},
+					admin: {
+						readOnly: true,
+						position: "sidebar",
+					},
+				},
 				{
 					name: "title",
 					type: "text",
