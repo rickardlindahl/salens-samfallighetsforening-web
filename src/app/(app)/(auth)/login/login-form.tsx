@@ -48,7 +48,7 @@ export const LoginForm = () => {
       try {
         await login(data);
         if (redirect?.current) router.push(redirect.current as string);
-        else router.push("/dashboard");
+        else router.push("/overview");
       } catch (err) {
         console.error(err);
         toast.error("Något gick fel. Var god försök igen.");

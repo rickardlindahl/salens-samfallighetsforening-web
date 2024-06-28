@@ -2,7 +2,8 @@ import type { User } from "@payload-types";
 
 export const rest = async (
   url: string,
-  args?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: Don't care about this
+  args?: any,
   options?: RequestInit,
 ): Promise<User | null | undefined> => {
   const method = options?.method || "POST";

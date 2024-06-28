@@ -27,6 +27,10 @@ export interface Config {
  */
 export interface User {
   id: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber?: string | null;
+  role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;

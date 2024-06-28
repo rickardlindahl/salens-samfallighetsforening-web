@@ -5,7 +5,7 @@ export const USER = `
   lastName
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: Don't care about this
 export const gql = async (query: string): Promise<any> => {
   try {
     const res = await fetch(
