@@ -1,8 +1,7 @@
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { notFound } from "next/navigation";
-import { getPayloadHMR } from "@payloadcms/next/utilities";
+import { formatRelative } from "@/lib/utils";
 import configPromise from "@payload-config";
+import { getPayloadHMR } from "@payloadcms/next/utilities";
+import { notFound } from "next/navigation";
 
 async function getPost(slug: string) {
   const payload = await getPayloadHMR({ config: configPromise });
@@ -39,14 +38,14 @@ export default async function SpecificPostPage({
           </h1>
           <hr className="my-8" />
           <p className="text-sm text-muted-foreground">
-            {/*
-               *
-               *
-            <time dateTime={post.postPublishDate.toISOString()}>
-                {formatRelative(post.postPublishDate)}
-              </time>
-               */}
+            <time dateTime={post.createdAt}>
+              {formatRelative(new Date(post.createdAt))}
+            </time>
           </p>
+          {post.content_html && (
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: Not much else to do ey?
+            <div dangerouslySetInnerHTML={{ __html: post.content_html }} />
+          )}
         </div>
       </article>
     </div>

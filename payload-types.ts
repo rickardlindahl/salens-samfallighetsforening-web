@@ -49,8 +49,8 @@ export interface User {
 export interface Post {
   id: string;
   slug?: string | null;
-  title?: string | null;
-  content?: {
+  title: string;
+  content: {
     root: {
       type: string;
       children: {
@@ -64,7 +64,8 @@ export interface Post {
       version: number;
     };
     [k: string]: unknown;
-  } | null;
+  };
+  content_html?: string | null;
   updatedAt: string;
   createdAt: string;
 }

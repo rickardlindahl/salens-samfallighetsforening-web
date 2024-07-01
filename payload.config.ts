@@ -4,7 +4,18 @@ import { admins } from "@/lib/payload/access/admins";
 import { adminsAndUser } from "@/lib/payload/access/adminsAndUser";
 import { checkRole } from "@/lib/payload/access/checkRole";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import payload from "payload";
+import {
+  defaultSlateConverters,
+  HTMLConverter,
+  HTMLConverterFeature,
+  lexicalEditor,
+  lexicalHTML,
+  SerializedUploadNode,
+  UploadFeatureProps,
+  UploadNode,
+  FeatureProviderServer,
+} from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { buildConfig } from "payload";
 import { en } from "payload/i18n/en";
@@ -158,11 +169,22 @@ export default buildConfig({
         {
           name: "title",
           type: "text",
+          required: true,
         },
         {
           name: "content",
           type: "richText",
+          required: true,
+          editor: lexicalEditor({
+            features: ({ defaultFeatures }) => [
+              ...defaultFeatures,
+              // The HTMLConverter Feature is the feature which manages the HTML serializers.
+              // If you do not pass any arguments to it, it will use the default serializers.
+              HTMLConverterFeature({}),
+            ],
+          }),
         },
+        lexicalHTML("content", { name: "content_html" }),
       ],
     },
     {
