@@ -75,6 +75,7 @@ export interface Post {
 export interface Media {
   id: string;
   text?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -93,10 +94,20 @@ export interface Media {
  */
 export interface Document {
   id: string;
-  document: string | Media;
   date: string;
+  description: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

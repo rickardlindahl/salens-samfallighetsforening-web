@@ -177,16 +177,16 @@ export default buildConfig({
     },
     {
       slug: "documents",
+      upload: true,
       fields: [
-        {
-          name: "document",
-          type: "upload",
-          relationTo: "media",
-          required: true,
-        },
         {
           name: "date",
           type: "date",
+          required: true,
+        },
+        {
+          name: "description",
+          type: "text",
           required: true,
         },
       ],
@@ -250,7 +250,12 @@ export default buildConfig({
   plugins: [
     s3Storage({
       collections: {
-        media: true,
+        media: {
+          prefix: "/media",
+        },
+        documents: {
+          prefix: "/documents",
+        },
       },
       bucket: S3_BUCKET,
       config: {
