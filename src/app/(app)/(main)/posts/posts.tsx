@@ -3,17 +3,18 @@ import configPromise from "@payload-config";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
 import Link from "next/link";
 
-async function getPosts() {
+async function getPosts(limit?: number) {
   const payload = await getPayloadHMR({ config: configPromise });
   const posts = await payload.find({
     collection: "posts",
+    limit,
   });
 
   return posts.docs;
 }
 
-export async function Posts() {
-  const posts = await getPosts();
+export async function Posts({ limit }: { limit?: number }) {
+  const posts = await getPosts(limit);
 
   if (posts.length === 0) {
     return (

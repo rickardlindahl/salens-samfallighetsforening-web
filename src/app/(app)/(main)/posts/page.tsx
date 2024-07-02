@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { PostsWrapper } from "./posts-wrapper";
+import { Posts } from "./posts";
 
 export default async function PostsPage() {
   return (
@@ -18,7 +18,7 @@ export default async function PostsPage() {
       <hr className="my-8" />
 
       <Suspense>
-        <PostsWrapper />
+        <Posts />
       </Suspense>
     </div>
   );
