@@ -12,7 +12,7 @@ async function getPosts() {
   return posts.docs;
 }
 
-export async function PostsWrapper() {
+export async function Posts() {
   const posts = await getPosts();
 
   if (posts.length === 0) {
