@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { Posts } from "./posts";
+import { PostsListLoading } from "@/components/posts-list";
 
 export default async function PostsPage() {
   return (
@@ -17,7 +18,7 @@ export default async function PostsPage() {
 
       <hr className="my-8" />
 
-      <Suspense>
+      <Suspense fallback={<PostsListLoading />}>
         <Posts />
       </Suspense>
     </div>

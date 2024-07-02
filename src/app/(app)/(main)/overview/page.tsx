@@ -2,6 +2,9 @@ import { DocumentsListLoading } from "@/components/documents-list";
 import { Suspense } from "react";
 import { Documents } from "../documents/documents";
 import { Posts } from "../posts/posts";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { PostsListLoading } from "@/components/posts-list";
 
 export default async function OverviewPage() {
   return (
@@ -24,17 +27,23 @@ export default async function OverviewPage() {
           <section>
             <h2 className="text-2xl font-bold mb-6">Senaste inläggen</h2>
             <div className="grid gap-6">
-              <Suspense>
+              <Suspense fallback={<PostsListLoading limit={3} />}>
                 <Posts limit={3} />
               </Suspense>
+              <Button asChild variant="link">
+                <Link href="/posts">Visa alla</Link>
+              </Button>
             </div>
           </section>
           <section>
             <h2 className="text-2xl font-bold mb-6">Senaste dokumenten</h2>
             <div className="grid gap-6">
-              <Suspense fallback={<DocumentsListLoading />}>
+              <Suspense fallback={<DocumentsListLoading limit={3} />}>
                 <Documents limit={3} />
               </Suspense>
+              <Button asChild variant="link">
+                <Link href="/documents">Visa alla</Link>
+              </Button>
             </div>
           </section>
         </div>

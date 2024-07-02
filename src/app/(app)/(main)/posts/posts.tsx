@@ -1,7 +1,6 @@
-import { formatRelative } from "@/lib/utils";
+import { PostsList } from "@/components/posts-list";
 import configPromise from "@payload-config";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
-import Link from "next/link";
 
 async function getPosts(limit?: number) {
   const payload = await getPayloadHMR({ config: configPromise });
@@ -26,26 +25,5 @@ export async function Posts({ limit }: { limit?: number }) {
     );
   }
 
-  return (
-    <div className="grid gap-10">
-      {posts.map((post) => (
-        <Link
-          key={post.id}
-          href={`/posts/${post.slug}`}
-          className="hover:underline"
-        >
-          <article className="grid grid-cols-[1fr_auto] items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-4">
-            <div className="grid gap-1">
-              <h3 className="font-medium">{post.title}</h3>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                <time dateTime={post.createdAt}>
-                  {formatRelative(new Date(post.createdAt))}
-                </time>
-              </div>
-            </div>
-          </article>
-        </Link>
-      ))}
-    </div>
-  );
+  return <PostsList posts={posts} />;
 }
