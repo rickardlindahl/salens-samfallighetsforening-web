@@ -3,6 +3,7 @@ import { cn, readableFileSize } from "@/lib/utils";
 import { format } from "date-fns/format";
 import { Button, buttonVariants } from "./ui/button";
 import type { Document } from "@payload-types";
+import { Icons } from "./icons";
 
 export function DocumentsList({ documents }: { documents: Document[] }) {
   return (
@@ -12,7 +13,7 @@ export function DocumentsList({ documents }: { documents: Document[] }) {
         .map(({ id, filename, description, url, filesize, createdAt }) => (
           <div
             key={id}
-            className="grid grid-cols-[1fr_auto] items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-4"
+            className="gap-4 border-b border-gray-200 dark:border-gray-800 pb-4"
           >
             <div className="grid gap-1">
               <h3 className="font-medium">{description}</h3>
@@ -24,23 +25,17 @@ export function DocumentsList({ documents }: { documents: Document[] }) {
               </div>
               <p className="text-sm line-clamp-2">
                 {typeof url === "string" && (
-                  <a href={url} download>
+                  <a
+                    href={url}
+                    download
+                    className="flex flex-row gap-2 items-center hover:underline"
+                  >
+                    <Icons.download className="w-4 h-4" />
                     {filename}
                   </a>
                 )}
               </p>
             </div>
-            {typeof url === "string" && (
-              <a
-                href={url}
-                download
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "sm" }),
-                )}
-              >
-                Ladda ner
-              </a>
-            )}
           </div>
         ))}
     </div>
