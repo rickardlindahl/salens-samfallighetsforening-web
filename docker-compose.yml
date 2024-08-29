@@ -14,11 +14,23 @@ services:
 
   mongodb:
     image: mongodb/mongodb-community-server:latest
-    container_name: mongodb
+    container_name: mongo
     ports:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=next-payload-3
+      - ME_CONFIG_BASICAUTH_USERNAME=user
+      - ME_CONFIG_BASICAUTH_PASSWORD=password
+    ports:
+      - "8081:8081"
 
 volumes:
   minio-data:
