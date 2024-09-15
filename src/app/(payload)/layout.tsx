@@ -5,6 +5,8 @@ import { RootLayout } from "@payloadcms/next/layouts";
 /* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
 import React from "react";
 
+import { importMap } from "./admin/importMap.js";
+
 import "./custom.scss";
 
 type Args = {
@@ -12,7 +14,9 @@ type Args = {
 };
 
 const Layout = ({ children }: Args) => (
-  <RootLayout config={configPromise}>{children}</RootLayout>
+  <RootLayout config={configPromise} importMap={importMap}>
+    {children}
+  </RootLayout>
 );
 
 export default Layout;
