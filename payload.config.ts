@@ -125,6 +125,11 @@ export default buildConfig({
       },
       fields: [
         {
+          name: "publishDate",
+          type: "date",
+          required: true,
+        },
+        {
           name: "slug",
           type: "text",
           hooks: {

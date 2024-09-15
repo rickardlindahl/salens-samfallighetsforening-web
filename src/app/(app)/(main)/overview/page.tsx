@@ -28,7 +28,7 @@ export default async function OverviewPage() {
             <h2 className="text-2xl font-bold mb-6">Senaste inläggen</h2>
             <div className="grid gap-6">
               <Suspense fallback={<PostsListLoading limit={3} />}>
-                <Posts limit={3} />
+                <Posts publishedBefore={new Date()} limit={3} />
               </Suspense>
               <Button asChild variant="link">
                 <Link href="/posts">Visa alla</Link>

@@ -19,7 +19,7 @@ export default async function PostsPage() {
       <hr className="my-8" />
 
       <Suspense fallback={<PostsListLoading />}>
-        <Posts />
+        <Posts publishedBefore={new Date()} />
       </Suspense>
     </div>
   );

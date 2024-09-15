@@ -5,14 +5,14 @@ import { formatRelative } from "@/lib/utils";
 export function PostsList({ posts }: { posts: Post[] }) {
   return (
     <div className="grid gap-4">
-      {posts.map(({ id, title, createdAt, slug }) => (
+      {posts.map(({ id, title, publishDate, slug }) => (
         <div
           key={id}
           className="grid gap-1 border-b border-gray-200 dark:border-gray-800 pb-4"
         >
           <h3 className="font-medium">{title}</h3>
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            {formatRelative(new Date(createdAt), new Date())}
+            {formatRelative(new Date(publishDate), new Date())}
           </div>
           <p className="text-sm line-clamp-2">
             {typeof slug === "string" && (

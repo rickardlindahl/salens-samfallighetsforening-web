@@ -72,6 +72,7 @@ export interface User {
  */
 export interface Post {
   id: string;
+  publishDate: string;
   slug?: string | null;
   title: string;
   content: {

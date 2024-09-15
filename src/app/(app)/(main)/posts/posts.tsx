@@ -2,18 +2,27 @@ import { PostsList } from "@/components/posts-list";
 import configPromise from "@payload-config";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
 
-async function getPosts(limit?: number) {
+async function getPosts(publishedBefore: Date, limit?: number) {
   const payload = await getPayloadHMR({ config: configPromise });
   const posts = await payload.find({
     collection: "posts",
     limit,
+    sort: "-publishDate",
+    where: {
+      publishDate: {
+        less_than_equal: publishedBefore.toISOString(),
+      },
+    },
   });
 
   return posts.docs;
 }
 
-export async function Posts({ limit }: { limit?: number }) {
-  const posts = await getPosts(limit);
+export async function Posts({
+  publishedBefore,
+  limit,
+}: { limit?: number; publishedBefore: Date }) {
+  const posts = await getPosts(publishedBefore, limit);
 
   if (posts.length === 0) {
     return (
