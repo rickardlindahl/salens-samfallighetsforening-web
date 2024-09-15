@@ -1,3 +1,4 @@
+import { render } from "@/components/richtext/render";
 import { formatRelative } from "@/lib/utils";
 import configPromise from "@payload-config";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
@@ -15,8 +16,6 @@ async function getPost(slug: string) {
     limit: 1,
   });
 
-  console.log(posts);
-
   return posts.docs;
 }
 
@@ -28,6 +27,8 @@ export default async function SpecificPostPage({
   if (!post) {
     notFound();
   }
+
+  post.content.root.children.map(console.log);
 
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
@@ -42,10 +43,7 @@ export default async function SpecificPostPage({
               {formatRelative(new Date(post.createdAt))}
             </time>
           </p>
-          {post.content_html && (
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: Not much else to do ey?
-            <div dangerouslySetInnerHTML={{ __html: post.content_html }} />
-          )}
+          {render(post.content.root.children)}
         </div>
       </article>
     </div>
