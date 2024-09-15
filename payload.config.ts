@@ -100,24 +100,6 @@ export default buildConfig({
           required: true,
           hasMany: false,
           saveToJWT: true,
-          hooks: {
-            beforeChange: [
-              async ({ req, value, operation }) => {
-                if (operation !== "update") {
-                  return value;
-                }
-                // Make sure a non-admin user can't change role to admin
-
-                const isAdmin = req.user?.role === "admin";
-
-                if (!isAdmin) {
-                  return "user";
-                }
-
-                return value;
-              },
-            ],
-          },
           defaultValue: "user",
           options: [
             {
