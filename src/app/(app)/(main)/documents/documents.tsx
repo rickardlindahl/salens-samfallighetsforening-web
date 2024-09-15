@@ -16,7 +16,7 @@ async function getDocuments(limit?: number) {
 }
 
 export async function Documents({ limit }: { limit?: number }) {
-  const documents = await getDocuments();
+  const documents = await getDocuments(limit);
 
   if (documents.length === 0) {
     return (
