@@ -12,6 +12,7 @@ import { s3Storage } from "@payloadcms/storage-s3";
 import { buildConfig } from "payload";
 import { en } from "payload/i18n/en";
 import sharp from "sharp";
+import slugify from "@sindresorhus/slugify";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -132,11 +133,59 @@ export default buildConfig({
         {
           name: "slug",
           type: "text",
+          unique: true,
           hooks: {
             beforeChange: [
-              async ({ value, data }) => {
-                // return formatted version of title if exists, else return unmodified value
-                return data?.title?.replace(/ /g, "-").toLowerCase() ?? value;
+              async ({ data, originalDoc, operation, req }) => {
+                // Ensure the hook only runs on create and update operations
+                if (
+                  !data ||
+                  !data.title ||
+                  (operation !== "create" && operation !== "update")
+                ) {
+                  return;
+                }
+
+                let slug = slugify(data.title || "");
+
+                if (!slug) return;
+
+                // If we are updating an existing post, we can skip uniqueness check if the title is unchanged
+                if (operation === "update" && originalDoc.slug === slug) {
+                  data.slug = slug;
+                  return;
+                }
+
+                const existingPosts = await req.payload.find({
+                  collection: "posts",
+                  where: {
+                    slug: {
+                      equals: slug,
+                    },
+                  },
+                });
+
+                // If a post with the same slug exists, add a suffix until it's unique
+                let suffix = 1;
+                while (existingPosts.docs.length > 0) {
+                  slug = `${slug}-${suffix}`;
+                  suffix++;
+
+                  const slugCheck = await req.payload.find({
+                    collection: "posts",
+                    where: {
+                      slug: {
+                        equals: slug,
+                      },
+                    },
+                  });
+
+                  if (slugCheck.docs.length === 0) {
+                    break;
+                  }
+                }
+
+                data.slug = slug;
               },
             ],
           },
