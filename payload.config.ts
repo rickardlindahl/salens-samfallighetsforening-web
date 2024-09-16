@@ -129,6 +129,7 @@ export default buildConfig({
           name: "publishDate",
           type: "date",
           required: true,
+          defaultValue: () => new Date(),
         },
         {
           name: "slug",
