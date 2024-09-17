@@ -4,15 +4,17 @@ import { admins } from "@/lib/payload/access/admins";
 import { adminsAndUser } from "@/lib/payload/access/adminsAndUser";
 import { checkRole } from "@/lib/payload/access/checkRole";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
+import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
 import {
   HTMLConverterFeature,
   lexicalEditor,
 } from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
+import slugify from "@sindresorhus/slugify";
+import nodemailer from "nodemailer";
 import { buildConfig } from "payload";
 import { en } from "payload/i18n/en";
 import sharp from "sharp";
-import slugify from "@sindresorhus/slugify";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -270,6 +272,21 @@ export default buildConfig({
       prefillOnly: true,
     },
   },
+  email: process.env.SMTP_HOST
+    ? nodemailerAdapter({
+        defaultFromAddress: "info@salenssamfallighetsforening.se",
+        defaultFromName: "Salens Samfällighetsförening",
+        // Any Nodemailer transport
+        transport: nodemailer.createTransport({
+          host: process.env.SMTP_HOST,
+          port: 587,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          },
+        }),
+      })
+    : undefined,
   async onInit(payload) {
     const existingUsers = await payload.find({
       collection: "users",
