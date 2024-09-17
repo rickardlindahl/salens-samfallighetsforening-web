@@ -46,7 +46,7 @@ export default buildConfig({
       slug: "users",
       auth: {
         tokenExpiration: 60 * 60 * 8, // 8 hours
-        verify: process.env.NODE_ENV === "production", // Require email verification before being allowed to authenticate
+        verify: false, // Require email verification before being allowed to authenticate
         cookies: {
           sameSite: "None",
           secure: true,
