@@ -1,7 +1,8 @@
-import { render } from "@/components/richtext/render";
+import { render, SerializedLexicalNode } from "@/components/richtext/render";
 import { formatRelative } from "@/lib/utils";
 import configPromise from "@payload-config";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
+import { SerializedLinkNode } from "@payloadcms/richtext-lexical";
 import { notFound } from "next/navigation";
 
 async function getPost(slug: string) {
@@ -43,7 +44,7 @@ export default async function SpecificPostPage({
               {formatRelative(new Date(post.createdAt))}
             </time>
           </p>
-          {render(post.content.root.children)}
+          {render(post.content.root.children as SerializedLexicalNode[])}
         </div>
       </article>
     </div>
