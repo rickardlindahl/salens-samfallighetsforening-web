@@ -19,8 +19,8 @@ dependencies:
     specifier: 3.0.0-beta.106
     version: 3.0.0-beta.106(payload@3.0.0-beta.106)(react@19.0.0-rc-06d0b89e-20240801)(types-react@19.0.0-alpha.3)
   '@payloadcms/email-nodemailer':
-    specifier: 3.0.0-beta.29
-    version: 3.0.0-beta.29(payload@3.0.0-beta.106)
+    specifier: 3.0.0-beta.106
+    version: 3.0.0-beta.106(payload@3.0.0-beta.106)
   '@payloadcms/next':
     specifier: 3.0.0-beta.106
     version: 3.0.0-beta.106(graphql@16.9.0)(monaco-editor@0.50.0)(next@15.0.0-canary.104)(payload@3.0.0-beta.106)(react-dom@19.0.0-rc-06d0b89e-20240801)(react@19.0.0-rc-06d0b89e-20240801)(types-react@19.0.0-alpha.3)(typescript@5.6.2)
@@ -3233,11 +3233,11 @@ packages:
       - sqlite3
     dev: false
 
-  /@payloadcms/email-nodemailer@3.0.0-beta.29(payload@3.0.0-beta.106):
-    resolution: {integrity: sha512-8BqO7IynE84D7RH+0pX+5G1DNbseCEkWWEcmFD5aPOAGGhb0x+DcLu99JKg2CNiNzSNEyVmh5WYBPRql+mILFg==}
-    engines: {node: '>=18.20.2'}
+  /@payloadcms/email-nodemailer@3.0.0-beta.106(payload@3.0.0-beta.106):
+    resolution: {integrity: sha512-M+B4O/a59cQzDWzPKLv9gITmiXSpvOcjMfKMFsRBgNB52otwxm2kAMwfYBdZWNe3YW7uydvLZz9Lo8Sq+a6PhQ==}
+    engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
-      payload: 3.0.0-beta.29
+      payload: 3.0.0-beta.106
     dependencies:
       nodemailer: 6.9.10
       payload: 3.0.0-beta.106(graphql@16.9.0)(monaco-editor@0.50.0)(react-dom@19.0.0-rc-06d0b89e-20240801)(react@19.0.0-rc-06d0b89e-20240801)(typescript@5.6.2)
