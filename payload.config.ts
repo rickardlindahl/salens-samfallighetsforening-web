@@ -266,11 +266,14 @@ export default buildConfig({
   },
 
   admin: {
-    autoLogin: {
-      email: "dev@payloadcms.com",
-      password: "test",
-      prefillOnly: true,
-    },
+    autoLogin:
+      process.env.NODE_ENV === "development"
+        ? {
+            email: "dev@payloadcms.com",
+            password: "test",
+            prefillOnly: true,
+          }
+        : false,
   },
   email: process.env.SMTP_HOST
     ? nodemailerAdapter({
@@ -288,22 +291,24 @@ export default buildConfig({
       })
     : undefined,
   async onInit(payload) {
-    const existingUsers = await payload.find({
-      collection: "users",
-      limit: 1,
-    });
-
-    if (existingUsers.docs.length === 0) {
-      await payload.create({
+    if (process.env.NODE_ENV === "development") {
+      const existingUsers = await payload.find({
         collection: "users",
-        data: {
-          email: "dev@payloadcms.com",
-          password: "test",
-          firstName: "Dev",
-          lastName: "Eloper",
-          role: "admin",
-        },
+        limit: 1,
       });
+
+      if (existingUsers.docs.length === 0) {
+        await payload.create({
+          collection: "users",
+          data: {
+            email: "dev@payloadcms.com",
+            password: "test",
+            firstName: "Dev",
+            lastName: "Eloper",
+            role: "admin",
+          },
+        });
+      }
     }
   },
   // Sharp is now an optional dependency -
