@@ -13,7 +13,7 @@ import { s3Storage } from "@payloadcms/storage-s3";
 import slugify from "@sindresorhus/slugify";
 import nodemailer from "nodemailer";
 import { buildConfig } from "payload";
-import { en } from "payload/i18n/en";
+import { sv } from "payload/i18n/sv";
 import sharp from "sharp";
 
 const filename = fileURLToPath(import.meta.url);
@@ -262,7 +262,7 @@ export default buildConfig({
    * This is completely optional and will default to English if not provided
    */
   i18n: {
-    supportedLanguages: { en },
+    supportedLanguages: { sv },
   },
 
   admin: {
