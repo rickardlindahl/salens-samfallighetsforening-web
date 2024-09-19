@@ -94,12 +94,10 @@ const sendInviteEmailAfterUserCreated: CollectionAfterChangeHook<
       html: `
     <p>Hej ${doc.firstName},</p>
     <p>Du har blivit inbjuden till <strong>Salens Samfällighetsförening</strong>!</p>
-    <p>För att komma igång behöver du skapa ett lösenord genom att klicka på länken nedan:</p>
-    <p><a href="${resetPasswordUrl}" style="color: #1a73e8; text-decoration: none;">Skapa ditt lösenord</a></p>
-    <p>Om du inte förväntade dig den här inbjudan kan du ignorera detta meddelande.</p>
-    <p>Vänliga hälsningar,</p>
-    <p>Salens Samfällighetsförening</p>
-  `,
+    <p>För att komma igång behöver du skapa ett lösenord genom att klicka på länken nedan:<br>
+      <a href="${resetPasswordUrl}" style="color: #1a73e8; text-decoration: none;">Skapa ditt lösenord</a>
+    </p>
+    <p>Vänliga hälsningar,<br>Salens Samfällighetsförening</p>`,
     });
   }
 };
