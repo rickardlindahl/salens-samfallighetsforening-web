@@ -39,9 +39,6 @@ export function UserNavbar({ user }: { user: User }) {
           {user.firstName} {user.lastName}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild className="cursor-pointer" disabled>
-          <Link href="/account/settings">Inställningar</Link>
-        </DropdownMenuItem>
         {user.role === "admin" && (
           <DropdownMenuItem asChild className="cursor-pointer">
             <Link href="/admin">Admin</Link>
