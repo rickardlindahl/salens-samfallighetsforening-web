@@ -21,7 +21,7 @@ export async function Documents({ limit }: { limit?: number }) {
   if (documents.length === 0) {
     return (
       <div>
-        <h3 className="text-xl font-bold tracking-tight">
+        <h3 className="text-2xl font-bold tracking-tight">
           Inga dokument uppladdade ännu
         </h3>
       </div>
