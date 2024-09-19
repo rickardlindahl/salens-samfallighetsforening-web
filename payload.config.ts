@@ -117,6 +117,29 @@ export default buildConfig({
           secure: true,
           domain: process.env.COOKIE_DOMAIN,
         },
+        forgotPassword: {
+          generateEmailHTML(args) {
+            if (!args) {
+              throw new Error("No token to generate forgotPassword email with");
+            }
+
+            const { token, user } = args;
+
+            const resetPasswordUrl = `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/reset-password?token=${token}`;
+
+            return `
+    <p>Hej ${(user as User).firstName},</p>
+    <p>Du får detta för att du (eller någon annan) har begärt återställning av lösenordet för ditt konto.</p>
+    <p>För att slutföra processen och klicka på länken nedan:<br>
+      <a href="${resetPasswordUrl}" style="color: #1a73e8; text-decoration: none;">Återställ lösenord</a>
+    </p>
+    <p>Om du inte begärde detta, ignorera detta e-postmeddelande och ditt lösenord kommer att förbli oförändrat.</p>
+    <p>Vänliga hälsningar,<br>Salens Samfällighetsförening</p>`;
+          },
+          generateEmailSubject() {
+            return "Återställ ditt lösenord";
+          },
+        },
       },
       access: {
         read: adminsAndUser,
