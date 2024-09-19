@@ -99,6 +99,8 @@ const sendInviteEmailAfterUserCreated: CollectionAfterChangeHook<
     </p>
     <p>Vänliga hälsningar,<br>Salens Samfällighetsförening</p>`,
     });
+
+    return doc;
   }
 };
 
