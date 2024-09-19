@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/lib/providers/auth";
 import { cn } from "@/lib/utils";
+import PlausibleProvider from "next-plausible";
 import { Inter } from "next/font/google";
 
 export const dynamic = "force-dynamic";
@@ -26,16 +27,21 @@ export default function RootLayout({
           inter.variable,
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+        <PlausibleProvider
+          domain="salenssamfallighetsforening.se"
+          customDomain="https://analytics.lindahl.app/js/script.js"
         >
-          <AuthProvider api="rest">{children}</AuthProvider>
-          <Toaster richColors />
-          <TailwindIndicator />
-        </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AuthProvider api="rest">{children}</AuthProvider>
+            <Toaster richColors />
+            <TailwindIndicator />
+          </ThemeProvider>
+        </PlausibleProvider>
       </body>
     </html>
   );
