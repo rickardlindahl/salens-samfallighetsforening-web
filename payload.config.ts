@@ -59,7 +59,10 @@ const sendEmail = async ({ to, subject, html }: Mail.Options) => {
   const transport = createEmailTransport();
 
   await transport.sendMail({
-    from: process.env.EMAIL_USER,
+    from: {
+      name: "Salens Samfällighetsförening",
+      address: "info@salenssamfallighetsforening.se",
+    },
     to,
     subject,
     html,
