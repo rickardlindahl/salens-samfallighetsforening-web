@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { admins } from "@/lib/payload/access/admins";
 import { adminsAndUser } from "@/lib/payload/access/adminsAndUser";
 import { checkRole } from "@/lib/payload/access/checkRole";
+import type { User } from "@payload-types";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
 import {
@@ -12,6 +13,8 @@ import {
 import { s3Storage } from "@payloadcms/storage-s3";
 import slugify from "@sindresorhus/slugify";
 import nodemailer from "nodemailer";
+import type Mail from "nodemailer/lib/mailer";
+import payload, { type CollectionAfterChangeHook } from "payload";
 import { buildConfig } from "payload";
 import { sv } from "payload/i18n/sv";
 import sharp from "sharp";
@@ -39,6 +42,60 @@ if (!S3_ENDPOINT) {
   throw new Error("Missing environment variable S3_ENDPOINT");
 }
 
+function createEmailTransport() {
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: 587,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+}
+
+const sendEmail = async ({ to, subject, html }: Mail.Options) => {
+  const transport = createEmailTransport();
+
+  await transport.sendMail({
+    from: process.env.EMAIL_USER,
+    to,
+    subject,
+    html,
+  });
+};
+
+const sendInviteEmailAfterUserCreated: CollectionAfterChangeHook<
+  User
+> = async ({ doc, operation }) => {
+  // Only trigger the hook when creating a new user
+  if (operation === "create") {
+    // Generate the reset password token for the new user
+    const resetToken = await payload.forgotPassword({
+      collection: "users",
+      data: { email: doc.email },
+      disableEmail: true, // Disable default Payload email so you can send a custom one
+    });
+
+    // Create a reset-password link with the generated token
+    const resetPasswordUrl = `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/reset-password?token=${resetToken}`;
+
+    // Send the reset-password email
+    await sendEmail({
+      to: doc.email,
+      subject: "Du har blivit inbjuden till Salens Samfällighetsförening",
+      html: `
+    <p>Hej ${doc.firstName},</p>
+    <p>Du har blivit inbjuden till <strong>Salens Samfällighetsförening</strong>!</p>
+    <p>För att komma igång behöver du skapa ett lösenord genom att klicka på länken nedan:</p>
+    <p><a href="${resetPasswordUrl}" style="color: #1a73e8; text-decoration: none;">Skapa ditt lösenord</a></p>
+    <p>Om du inte förväntade dig den här inbjudan kan du ignorera detta meddelande.</p>
+    <p>Vänliga hälsningar,</p>
+    <p>Salens Samfällighetsförening</p>
+  `,
+    });
+  }
+};
+
 export default buildConfig({
   editor: lexicalEditor(),
   collections: [
@@ -59,6 +116,9 @@ export default buildConfig({
         update: adminsAndUser,
         delete: admins,
         admin: ({ req: { user } }) => checkRole("admin", user),
+      },
+      hooks: {
+        afterChange: [sendInviteEmailAfterUserCreated],
       },
       labels: {
         singular: {
@@ -280,14 +340,7 @@ export default buildConfig({
         defaultFromAddress: "info@salenssamfallighetsforening.se",
         defaultFromName: "Salens Samfällighetsförening",
         // Any Nodemailer transport
-        transport: nodemailer.createTransport({
-          host: process.env.SMTP_HOST,
-          port: 587,
-          auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-          },
-        }),
+        transport: createEmailTransport(),
       })
     : undefined,
   async onInit(payload) {
