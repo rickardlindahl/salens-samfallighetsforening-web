@@ -4,7 +4,7 @@ import { admins } from "@/lib/payload/access/admins";
 import { adminsAndUser } from "@/lib/payload/access/adminsAndUser";
 import { checkRole } from "@/lib/payload/access/checkRole";
 import config from "@payload-config";
-import type { User } from "@payload-types";
+import type { Post, User } from "@payload-types";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
@@ -102,6 +102,38 @@ const sendInviteEmailAfterUserCreated: CollectionAfterChangeHook<
 
     return doc;
   }
+};
+
+const sendEmailAfterPostCreated: CollectionAfterChangeHook<Post> = async ({
+  doc,
+  operation,
+}) => {
+  // Only trigger the hook when creating a new post
+  if (operation !== "create") {
+    return doc;
+  }
+
+  const payload = await getPayloadHMR({
+    config,
+  });
+  const users = await payload.find({
+    collection: "users",
+  });
+
+  const postUrl = `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/posts/${doc.slug}`;
+
+  await sendEmail({
+    to: users.docs.map((user) => user.email).join(";"),
+    subject: "Nytt inlägg publicerat",
+    html: `
+    <p>Ett nytt inlägg har publicerats på Salens Samfällighetsförenings hemsida.</p>
+    <p>Klicka på länken nedan för att läsa inlägget:<br>
+      <a href="${postUrl}" style="color: #1a73e8; text-decoration: none;">${doc.title}</a>
+    </p>
+    <p>Vänliga hälsningar,<br>Salens Samfällighetsförening</p>`,
+  });
+
+  return doc;
 };
 
 export default buildConfig({
@@ -226,6 +258,9 @@ export default buildConfig({
           en: "Posts",
           sv: "Inlägg",
         },
+      },
+      hooks: {
+        afterChange: [sendEmailAfterPostCreated],
       },
       fields: [
         {
