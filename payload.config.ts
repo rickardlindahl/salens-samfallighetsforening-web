@@ -299,7 +299,7 @@ export default buildConfig({
           },
           admin: {
             readOnly: true,
-            position: "sidebar",
+            hidden: true,
           },
         },
         {
