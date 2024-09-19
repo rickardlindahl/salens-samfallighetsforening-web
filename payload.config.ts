@@ -3,9 +3,11 @@ import { fileURLToPath } from "node:url";
 import { admins } from "@/lib/payload/access/admins";
 import { adminsAndUser } from "@/lib/payload/access/adminsAndUser";
 import { checkRole } from "@/lib/payload/access/checkRole";
+import config from "@payload-config";
 import type { User } from "@payload-types";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
+import { getPayloadHMR } from "@payloadcms/next/utilities";
 import {
   HTMLConverterFeature,
   lexicalEditor,
@@ -14,7 +16,7 @@ import { s3Storage } from "@payloadcms/storage-s3";
 import slugify from "@sindresorhus/slugify";
 import nodemailer from "nodemailer";
 import type Mail from "nodemailer/lib/mailer";
-import payload, { type CollectionAfterChangeHook } from "payload";
+import type { CollectionAfterChangeHook } from "payload";
 import { buildConfig } from "payload";
 import { sv } from "payload/i18n/sv";
 import sharp from "sharp";
@@ -70,6 +72,9 @@ const sendInviteEmailAfterUserCreated: CollectionAfterChangeHook<
   // Only trigger the hook when creating a new user
   if (operation === "create") {
     // Generate the reset password token for the new user
+    const payload = await getPayloadHMR({
+      config,
+    });
     const resetToken = await payload.forgotPassword({
       collection: "users",
       data: { email: doc.email },
