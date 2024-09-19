@@ -217,12 +217,26 @@ export default buildConfig({
       admin: {
         useAsTitle: "title",
       },
+      labels: {
+        singular: {
+          en: "Post",
+          sv: "Inlägg",
+        },
+        plural: {
+          en: "Posts",
+          sv: "Inlägg",
+        },
+      },
       fields: [
         {
           name: "publishDate",
           type: "date",
           required: true,
           defaultValue: () => new Date(),
+          label: {
+            en: "Publish date",
+            sv: "Publiceringsdatum",
+          },
         },
         {
           name: "slug",
@@ -292,11 +306,19 @@ export default buildConfig({
           name: "title",
           type: "text",
           required: true,
+          label: {
+            en: "Title",
+            sv: "Rubrik",
+          },
         },
         {
           name: "content",
           type: "richText",
           required: true,
+          label: {
+            en: "Content",
+            sv: "Innehåll",
+          },
           editor: lexicalEditor({
             features: ({ defaultFeatures }) => [
               ...defaultFeatures,
@@ -321,16 +343,34 @@ export default buildConfig({
     {
       slug: "documents",
       upload: true,
+      labels: {
+        singular: {
+          en: "Document",
+          sv: "Dokument",
+        },
+        plural: {
+          en: "Documents",
+          sv: "Dokument",
+        },
+      },
       fields: [
         {
           name: "date",
           type: "date",
           required: true,
+          label: {
+            en: "Date",
+            sv: "Datum",
+          },
         },
         {
           name: "description",
           type: "text",
           required: true,
+          label: {
+            en: "Description",
+            sv: "Beskrivning",
+          },
         },
       ],
     },
