@@ -27,10 +27,7 @@ export default function RootLayout({
           inter.variable,
         )}
       >
-        <PlausibleProvider
-          domain="salenssamfallighetsforening.se"
-          customDomain="https://analytics.lindahl.app/js/script.js"
-        >
+        <PlausibleProvider domain="salenssamfallighetsforening.se">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
