@@ -5,8 +5,13 @@ import { Posts } from "../posts/posts";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PostsListLoading } from "@/components/posts-list";
+import { getMeUser } from "@/lib/payload/getMeUser";
 
 export default async function OverviewPage() {
+  await getMeUser({
+    nullUserRedirect: `/login?redirect=${encodeURIComponent("/overview")}`,
+  });
+
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
       <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">

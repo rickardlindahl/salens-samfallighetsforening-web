@@ -1,8 +1,13 @@
 import { Suspense } from "react";
 import { Posts } from "./posts";
 import { PostsListLoading } from "@/components/posts-list";
+import { getMeUser } from "@/lib/payload/getMeUser";
 
 export default async function PostsPage() {
+  await getMeUser({
+    nullUserRedirect: `/login?redirect=${encodeURIComponent("/posts")}`,
+  });
+
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
       <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">

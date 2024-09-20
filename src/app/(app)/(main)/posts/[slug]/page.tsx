@@ -1,8 +1,11 @@
-import { render, SerializedLexicalNode } from "@/components/richtext/render";
+import {
+  type SerializedLexicalNode,
+  render,
+} from "@/components/richtext/render";
+import { getMeUser } from "@/lib/payload/getMeUser";
 import { formatRelative } from "@/lib/utils";
 import configPromise from "@payload-config";
 import { getPayloadHMR } from "@payloadcms/next/utilities";
-import { SerializedLinkNode } from "@payloadcms/richtext-lexical";
 import { notFound } from "next/navigation";
 
 async function getPost(slug: string) {
@@ -23,13 +26,15 @@ async function getPost(slug: string) {
 export default async function SpecificPostPage({
   params,
 }: { params: { slug: string } }) {
+  await getMeUser({
+    nullUserRedirect: `/login?redirect=${encodeURIComponent(`/posts/${params.slug}`)}`,
+  });
+
   const [post] = await getPost(params.slug);
 
   if (!post) {
     notFound();
   }
-
-  post.content.root.children.map(console.log);
 
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
