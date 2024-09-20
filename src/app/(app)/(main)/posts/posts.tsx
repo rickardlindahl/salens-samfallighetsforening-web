@@ -6,7 +6,7 @@ async function getPosts(publishedBefore: Date, limit?: number) {
   const payload = await getPayloadHMR({ config: configPromise });
   const posts = await payload.find({
     collection: "posts",
-    limit,
+    limit: limit ?? 999,
     sort: "-publishDate",
     where: {
       publishDate: {

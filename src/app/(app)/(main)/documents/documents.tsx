@@ -8,7 +8,7 @@ async function getDocuments(limit?: number) {
 
   const documents = await payload.find({
     collection: "documents",
-    limit,
+    limit: limit ?? 999,
     sort: "-date",
   });
 
