@@ -27,7 +27,7 @@ export default function RootLayout({
           inter.variable,
         )}
       >
-        <PlausibleProvider domain="salenssamfallighetsforening.se">
+        <PlausibleProvider domain="salenssamfallighetsforening.se" selfHosted>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
