@@ -21,24 +21,25 @@ export default function RootLayout({
 }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <PlausibleProvider domain="salenssamfallighetsforening.se" selfHosted />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           inter.variable,
         )}
       >
-        <PlausibleProvider domain="salenssamfallighetsforening.se" selfHosted>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <AuthProvider api="rest">{children}</AuthProvider>
-            <Toaster richColors />
-            <TailwindIndicator />
-          </ThemeProvider>
-        </PlausibleProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider api="rest">{children}</AuthProvider>
+          <Toaster richColors />
+          <TailwindIndicator />
+        </ThemeProvider>
       </body>
     </html>
   );
